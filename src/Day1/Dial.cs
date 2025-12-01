@@ -13,8 +13,8 @@ public class Dial(int position = Dial.StartingPosition)
     public void Move(string command)
     {
         var steps = int.Parse(command[1..]);
-        var fullCycles = steps / (MaxPosition + 1);
-        steps -= fullCycles * (MaxPosition + 1);
+        _finalPassword += steps / (MaxPosition + 1);
+        steps %= (MaxPosition + 1);
         var finalPasswordIncremented = false;
 
         var newPosition = _position;
@@ -54,22 +54,9 @@ public class Dial(int position = Dial.StartingPosition)
                 _finalPassword++;
             }
         }
-
-        _finalPassword += fullCycles;
     }
 
-    public int GetPosition()
-    {
-        return _position;
-    }
-
-    public int GetPassword()
-    {
-        return _password;
-    }
-
-    public int GetFinalPassword()
-    {
-        return _finalPassword;
-    }
+    public int GetPosition() => _position;
+    public int GetPassword() => _password;
+    public int GetFinalPassword() => _finalPassword;
 }

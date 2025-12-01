@@ -2,7 +2,7 @@
 
 namespace Day1.UnitTests;
 
-public class Tests
+public class DialTests
 {
     [TestCase("L68\nL30\nR48\nL5\nR60\nL55\nL1\nL99\nR14\nL82", 32, 3, 6)]
     [TestCase("R99", 49, 0, 1)]
