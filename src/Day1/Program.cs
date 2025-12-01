@@ -14,3 +14,4 @@ foreach (var command in commands)
 
 Console.WriteLine($"Final Position: {dial.GetPosition()}");
 Console.WriteLine($"Password: {dial.GetPassword()}");
+Console.WriteLine($"Final password for part two: {dial.GetFinalPassword()}");

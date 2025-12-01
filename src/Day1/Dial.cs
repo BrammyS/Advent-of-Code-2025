@@ -8,44 +8,68 @@ public class Dial(int position = Dial.StartingPosition)
 
     private int _position = position;
     private int _password;
+    private int _finalPassword;
 
     public void Move(string command)
     {
-        var moveLeft = command.StartsWith('L');
         var steps = int.Parse(command[1..]);
         var fullCycles = steps / (MaxPosition + 1);
         steps -= fullCycles * (MaxPosition + 1);
-        
-        if (moveLeft)
+        var finalPasswordIncremented = false;
+
+        var newPosition = _position;
+        if (command.StartsWith('L'))
         {
-            _position -= steps;
-            if (_position < MinPosition)
+            newPosition -= steps;
+            if (newPosition < MinPosition)
             {
-                _position = MaxPosition + 1 + _position;
+                newPosition = MaxPosition + 1 + newPosition;
+                if (_position != MinPosition)
+                {
+                    _finalPassword++;
+                    finalPasswordIncremented = true;
+                }
             }
         }
         else
         {
-            _position += steps;
-            if (_position > MaxPosition)
+            newPosition += steps;
+            if (newPosition > MaxPosition)
             {
-                _position = _position - MaxPosition - 1;
+                newPosition = newPosition - MaxPosition - 1;
+                if (_position != MinPosition)
+                {
+                    _finalPassword++;
+                    finalPasswordIncremented = true;
+                }
             }
         }
 
+        _position = newPosition;
         if (_position == 0)
         {
             _password++;
+            if (!finalPasswordIncremented)
+            {
+                _finalPassword++;
+            }
         }
+
+        _finalPassword += fullCycles;
     }
-    
+
     public int GetPosition()
     {
         return _position;
     }
-    
+
     public int GetPassword()
     {
         return _password;
+    }
+
+    public int GetFinalPassword()
+    {
+        return _finalPassword;
     }
 }
