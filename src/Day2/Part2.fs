@@ -1,11 +1,15 @@
 ﻿module Day2.Part2
 
+open System
 open System.Collections.Generic
 
-let repeatDigit (d: int64) (n: int64) : int64 =
-    let digitStr = d.ToString()
-    let repeatedStr = System.String.Concat(Array.init (int n) (fun _ -> digitStr))
-    int64 repeatedStr
+let repeatDigit (d: int64) (n: int) : int64 =
+    let s = d.ToString()
+    let repeated = String.Concat(Array.init n (fun _ -> s))
+    Int64.Parse(repeated)
+
+let private amountOfDigits (id: int64) =
+    int (Math.Floor(Math.Log10(float id))) + 1
 
 let sumInvalidIdsPart2 (idRanges: array<string>) : int64 =
     let mutable sum = 0L
@@ -13,34 +17,24 @@ let sumInvalidIdsPart2 (idRanges: array<string>) : int64 =
     for idRange in idRanges do
         let seen = HashSet<int64>()
         let parts = idRange.Split('-')
-        let startId = parts.[0] |> int64
-        let endId = parts.[1] |> int64
+        let startId = parts.[0] |> Int64.Parse
+        let endId = parts.[1] |> Int64.Parse
 
-        let ids = [ startId..endId ]
-        let amountOfDigits (id: int64) = int (log10 (float id)) + 1
-        let startDigits = [ 1 .. (amountOfDigits startId) / 2 ]
-        let endDigits = [ 1 .. (amountOfDigits endId) / 2 ]
+        for totalDigits in [ amountOfDigits startId .. amountOfDigits endId ] do
+            for digits in [ 1 .. (totalDigits / 2) ] do
+                if totalDigits % digits = 0 then
+                    let times = totalDigits / digits
 
-        for digit in (startDigits @ endDigits |> List.distinct) do
-            let part1 = $"%i{startId}"[0 .. digit - 1] |> int64
-            let part2 = $"%i{endId}"[0 .. digit - 1] |> int64
-            let mutable idsToCheck = [ part1..part2 ]
+                    if times >= 2 then
+                        let baseMin = if digits = 1 then 1L else pown 10L (digits - 1)
+                        let baseMax = pown 10L digits - 1L
 
-            if part1 > part2 then
-                // Not as efficient as it can be but i am going crazy enough already
-                idsToCheck <- ([ part1..part2 ] @ [ part2..part1 ]) |> List.distinct
+                        for baseVal in baseMin..baseMax do
+                            let repeatedDigits = repeatDigit baseVal times
 
-            let timesArr = [(amountOfDigits startId) / digit; (amountOfDigits endId) / digit] |> List.distinct
-            for id in idsToCheck do
-                for times in timesArr do
-                    let potentialInvalidId = repeatDigit id (int64 times)
-                    if List.contains potentialInvalidId ids then
-                        if seen.Add(potentialInvalidId) then
-                            sum <- sum + potentialInvalidId
-                            printfn $"Found invalid ID: %i{potentialInvalidId} in range %s{idRange} new sum %i{sum}"
-                        //else
-                            //printfn $"Duplicated %i{potentialInvalidId} - Wasted precious resources making the north pole melt faster"
-                    //else
-                        //printfn $"Correct %i{potentialInvalidId} - Wasted precious resources making the north pole melt faster"
+                            if repeatedDigits >= startId && repeatedDigits <= endId then
+                                if seen.Add(repeatedDigits) then
+                                    sum <- sum + repeatedDigits
+                                    printfn $"Found invalid ID: %i{repeatedDigits} - in range: %s{idRange} - new sum: %i{sum}"
 
     sum

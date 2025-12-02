@@ -28,7 +28,7 @@ open Shouldly
 let sumInvalidIdsShouldReturnCorrectSumPart1 range expected =
     sumInvalidIdsPart1(range).ShouldBeEquivalentTo(expected)
 
-
+[<TestCase([| "82187-123398" |], 3089785L)>]
 [<TestCase([| "1111111-1111112" |], 1111111L)>]
 [<TestCase([| "1111111-3111112" |], 3333333L)>]
 [<TestCase([| "11-22" |], 33L)>]
