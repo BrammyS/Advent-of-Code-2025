@@ -3,8 +3,8 @@ Advent of Code 2025 made with .NET 10.
 This year only contains 12 days.
 
 ## Checklist
-- [x] Day 1 - Secret Entrance
-- [ ] Day 2
+- [x] Day 1 - C# - Secret Entrance
+- [x] Day 2 - F# - Gift Shop
 - [ ] Day 3
 - [ ] Day 4
 - [ ] Day 5

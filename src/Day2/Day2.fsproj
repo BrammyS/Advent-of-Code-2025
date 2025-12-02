@@ -6,9 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Part1.fs"/>
+        <Compile Include="Part2.fs" />
         <Compile Include="Program.fs"/>
         <Content Include="input.txt">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 
