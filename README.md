@@ -5,7 +5,7 @@ This year only contains 12 days.
 ## Checklist
 - [x] Day 1 - C# - Secret Entrance
 - [x] Day 2 - F# - Gift Shop
-- [ ] Day 3
+- [x] Day 3 - F# - Lobby
 - [ ] Day 4
 - [ ] Day 5
 - [ ] Day 6
