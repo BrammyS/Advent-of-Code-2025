@@ -14,17 +14,17 @@ let calculateJoltage (batteryBanks: array<string>, maxActiveBatteries: int) : in
 
         for activeIndex in [ 0 .. (maxActiveBatteries - 1) ] do
             let parts = batteryJoltages[batteryCount - (batteryCount - startIndex) ..]
-            let mutable maxJotage = parts[0]
+            let mutable maxJoltage = parts[0]
             let mutable maxIndex = 0
 
             let maxAllowedIndex = parts.Length - maxActiveBatteries + activeIndex
             for i in [ 1 .. parts.Length - 1 ] do
-                if parts[i] > maxJotage && i <= maxAllowedIndex then
-                    maxJotage <- parts[i]
+                if parts[i] > maxJoltage && i <= maxAllowedIndex then
+                    maxJoltage <- parts[i]
                     maxIndex <- i
 
             startIndex <- startIndex + (maxIndex + 1)
-            activeBatteries[activeIndex] <- maxJotage
+            activeBatteries[activeIndex] <- maxJoltage
 
         let mutable result = 0L
 
