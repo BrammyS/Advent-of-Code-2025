@@ -23,21 +23,24 @@ let sumAccessibleRollsOfPaperPart2 (inputPaperRolls: array<string>, maxAdjacent:
     let indexToCheck = neighborIndexes distance
     let isValid r c =  r >= 0 && r < rows && c >= 0 && c < cols
 
+    let rec countNeighbors neighbors idx r c =
+        if idx >= Array.length neighbors then 0
+        else
+            let dr, dc = neighbors[idx]
+            let nr, nc = r + dr, c + dc
+            let current =
+                if isValid nr nc && paperRolls[nr, nc] = '@' then 1
+                else 0
+            current + countNeighbors neighbors (idx + 1) r c
+
     let rec loop totalSum =
         let mutable sum = 0L
 
         for r in 0 .. rows - 1 do
             for c in 0 .. cols - 1 do
                 if paperRolls[r, c] = '@' then
-                    let mutable neighbors = 0
-
-                    for dr, dc in indexToCheck do
-                        let nr, nc = r + dr, c + dc
-
-                        if isValid nr nc && paperRolls[nr, nc] = '@' then
-                            neighbors <- neighbors + 1
-
-                    if neighbors < maxAdjacent then
+                    let neighboringRolls = countNeighbors indexToCheck 0 r c
+                    if neighboringRolls < maxAdjacent then
                         sum <- sum + 1L
                         paperRolls[r, c] <- '.'
 
