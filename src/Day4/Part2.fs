@@ -40,14 +40,15 @@ let sumAccessibleRollsOfPaperPart2 (inputPaperRolls: array<string>, maxAdjacent:
                         let nr = r + checkR
                         let nc = c + checkC
 
-                        if nr >= 0 && nr < rows && nc >= 0 && nc < cols then
-                            let neighbor = paperRolls[nr, nc]
+                        if neighboringRolls < maxAdjacent then
+                            if nr >= 0 && nr < rows && nc >= 0 && nc < cols then
+                                let neighbor = paperRolls[nr, nc]
 
-                            neighboringRolls <-
-                                if neighbor = '@' then
-                                    neighboringRolls + 1L
-                                else
-                                    neighboringRolls
+                                neighboringRolls <-
+                                    if neighbor = '@' then
+                                        neighboringRolls + 1L
+                                    else
+                                        neighboringRolls
 
                     if neighboringRolls < maxAdjacent then
                         sum <- sum + 1L
