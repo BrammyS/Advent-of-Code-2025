@@ -18,42 +18,29 @@ let to2DCharArray (inputPaperRolls: string[]) =
     result
 
 let sumAccessibleRollsOfPaperPart2 (inputPaperRolls: array<string>, maxAdjacent: int, distance: int) : int64 =
-    let mutable totalSum = 0L
-    let mutable sum = 1L
-
     let paperRolls = to2DCharArray inputPaperRolls
-    let rows = Array2D.length1 paperRolls
-    let cols = Array2D.length2 paperRolls
+    let rows, cols = Array2D.length1 paperRolls, Array2D.length2 paperRolls
     let indexToCheck = neighborIndexes distance
+    let isValid r c =  r >= 0 && r < rows && c >= 0 && c < cols
 
-    while sum > 0 do
-        sum <- 0L
+    let rec loop totalSum =
+        let mutable sum = 0L
 
         for r in 0 .. rows - 1 do
             for c in 0 .. cols - 1 do
-                let paperRoll = paperRolls[r, c]
+                if paperRolls[r, c] = '@' then
+                    let mutable neighbors = 0
 
-                if paperRoll = '@' then
-                    let mutable neighboringRolls = 0L
+                    for dr, dc in indexToCheck do
+                        let nr, nc = r + dr, c + dc
 
-                    for (checkR, checkC) in indexToCheck do
-                        let nr = r + checkR
-                        let nc = c + checkC
+                        if isValid nr nc && paperRolls[nr, nc] = '@' then
+                            neighbors <- neighbors + 1
 
-                        if neighboringRolls < maxAdjacent then
-                            if nr >= 0 && nr < rows && nc >= 0 && nc < cols then
-                                let neighbor = paperRolls[nr, nc]
-
-                                neighboringRolls <-
-                                    if neighbor = '@' then
-                                        neighboringRolls + 1L
-                                    else
-                                        neighboringRolls
-
-                    if neighboringRolls < maxAdjacent then
+                    if neighbors < maxAdjacent then
                         sum <- sum + 1L
                         paperRolls[r, c] <- '.'
 
-        totalSum <- totalSum + sum
+        if sum = 0L then totalSum else loop (totalSum + sum)
 
-    totalSum
+    loop 0L
