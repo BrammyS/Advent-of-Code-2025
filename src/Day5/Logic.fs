@@ -31,7 +31,7 @@ let rec mergeAndSumFreshIds remaining currentStartId currentEndId total =
     | [||] -> total + (currentEndId - currentStartId + 1L)
     | _ ->
         let newStartId, newEndId = remaining[0]
-        let tail = remaining.[1..]
+        let tail = remaining[1..]
 
         if newStartId <= currentEndId then
             let mergedEndId = max currentEndId newEndId
@@ -43,4 +43,4 @@ let rec mergeAndSumFreshIds remaining currentStartId currentEndId total =
 let sumFreshIds (freshIds: array<int64 * int64>) : int64 =
     let sortedIds = Array.sortBy fst freshIds
     let startId, endId = sortedIds[0]
-    mergeAndSumFreshIds sortedIds.[1..] startId endId 0L
+    mergeAndSumFreshIds sortedIds[1..] startId endId 0L
