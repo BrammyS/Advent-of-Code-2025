@@ -7,7 +7,7 @@ This year only contains 12 days.
 - [x] Day 2 - F# - Gift Shop
 - [x] Day 3 - F# - Lobby
 - [x] Day 4 - F# - Printing Department
-- [ ] Day 5
+- [x] Day 5 - F# - Cafeteria
 - [ ] Day 6
 - [ ] Day 7
 - [ ] Day 8
