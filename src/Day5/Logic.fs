@@ -2,6 +2,7 @@
 
 open System.Collections.Generic
 
+// Part 1
 let rec getFreshIds (validIdRanges: string[]) (index: int) (freshIds: array<int64 * int64>) : array<int64 * int64> =
     if index < validIdRanges.Length then
         let currentRange = validIdRanges[index].Split '-'
