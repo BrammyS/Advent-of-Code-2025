@@ -26,7 +26,7 @@ let rec sumSpoiled (freshIds: array<int64 * int64>) (ids: string[]) (index: int)
         spoiledIds
 
 // Part 2
-let rec mergeAndSumFreshIds remaining currentStartId currentEndId total =
+let rec mergeAndSumFreshIds (remaining: array<int64 * int64>) (currentStartId: int64) (currentEndId: int64) (total: int64) =
     match remaining with
     | [||] -> total + (currentEndId - currentStartId + 1L)
     | _ ->
