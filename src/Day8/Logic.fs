@@ -62,4 +62,5 @@ let connectAndGroupPoints (lines: array<string>) (maxConnections: int64) : List<
 
 let calculatePart1 (lines: array<string>) (maxConnections: int64) : int =
     let groups, _ = connectAndGroupPoints lines maxConnections
-    groups[0].Count * groups[1].Count * groups[2].Count
+    let sortedGroups = groups |> Seq.sortByDescending _.Count |> Seq.toList
+    sortedGroups[0].Count * sortedGroups[1].Count * sortedGroups[2].Count
