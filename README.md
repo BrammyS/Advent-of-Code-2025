@@ -8,9 +8,9 @@ This year only contains 12 days.
 - [x] Day 3 - F# - Lobby
 - [x] Day 4 - F# - Printing Department
 - [x] Day 5 - F# - Cafeteria
-- [ ] Day 6
-- [ ] Day 7
-- [ ] Day 8
+- [x] Day 6 - F# - Trash Compactor
+- [x] Day 7 - F# - Laboratories
+- [x] Day 8 - F# - Playground
 - [ ] Day 9
 - [ ] Day 10
 - [ ] Day 11
