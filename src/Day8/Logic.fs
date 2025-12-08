@@ -19,8 +19,7 @@ let getSortedPoints (lines: array<string>) : Dictionary<Point * Point, float> =
             let dist = squaredDistance points[i] points[j]
             allDistances.Add((points[i], points[j]), dist)
 
-    let sortedDistances =
-        allDistances |> Seq.sortBy (fun kvp -> kvp.Value) |> Seq.toArray
+    let sortedDistances = allDistances |> Seq.sortBy _.Value |> Seq.toArray
 
     let sortedDict = Dictionary<Point * Point, float>()
 
