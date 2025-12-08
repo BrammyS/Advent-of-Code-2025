@@ -14,3 +14,9 @@ let part1 = calculatePart1 lines 1000
 sw1.Stop()
 printfn $"Part 1 Sum: {part1}"
 printfn $"Part 1 Elapsed in: %A{sw1.Elapsed.TotalMilliseconds} ms"
+
+let sw2 = Stopwatch.StartNew()
+let part2 = calculatePart2 lines
+sw2.Stop()
+printfn $"Part 2 Product: {part2}"
+printfn $"Part 2 Elapsed in: %A{sw2.Elapsed.TotalMilliseconds} ms"

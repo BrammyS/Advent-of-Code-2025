@@ -30,3 +30,8 @@ let lines =
 let calculatePart1Test () =
     let result = calculatePart1 lines 10
     result.ShouldBe 40
+
+[<Test>]
+let calculatePart2Test () =
+    let result = calculatePart2 lines
+    result.ShouldBe 25272

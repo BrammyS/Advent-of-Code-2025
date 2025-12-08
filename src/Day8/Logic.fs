@@ -29,10 +29,13 @@ let getSortedPoints (lines: array<string>) : Dictionary<Point * Point, float> =
 
     sortedDict
 
-let connectAndGroupPoints (lines: array<string>) (maxConnections: int64) : List<Set<Point>> * int64 =
+let connectAndGroupPoints (lines: array<string>) (maxConnections: int64) : List<Set<Point>> * (Point * Point) =
     let sortedDistances: Dictionary<Point * Point, float> = getSortedPoints lines
     let groups = List<Set<Point>>()
     let mutable connections = 0L
+
+    let mutable currentPoints: Point * Point =
+        ({ X = 0.0; Y = 0.0; Z = 0.0 }, { X = 0.0; Y = 0.0; Z = 0.0 })
 
     for kvp in sortedDistances do
         if connections < maxConnections then
@@ -49,18 +52,30 @@ let connectAndGroupPoints (lines: array<string>) (maxConnections: int64) : List<
                     group2Index <- i
 
             match group1Index, group2Index with
-            | -1, -1 -> groups.Add(Set.ofList [ p1; p2 ])
-            | i, -1 -> groups[i] <- groups[i].Add p2
-            | -1, j -> groups[j] <- groups[j].Add p1
+            | -1, -1 ->
+                currentPoints <- kvp.Key
+                groups.Add(Set.ofList [ p1; p2 ])
+            | i, -1 ->
+                currentPoints <- kvp.Key
+                groups[i] <- groups[i].Add p2
+            | -1, j ->
+                currentPoints <- kvp.Key
+                groups[j] <- groups[j].Add p1
             | i, j when i <> j ->
+                currentPoints <- kvp.Key
                 let mergedGroup = Set.union groups[i] groups[j]
                 groups[i] <- mergedGroup
                 groups.RemoveAt(j)
             | _ -> ()
 
-    groups, connections
+    groups, currentPoints
 
 let calculatePart1 (lines: array<string>) (maxConnections: int64) : int =
     let groups, _ = connectAndGroupPoints lines maxConnections
     let sortedGroups = groups |> Seq.sortByDescending _.Count |> Seq.toList
     sortedGroups[0].Count * sortedGroups[1].Count * sortedGroups[2].Count
+
+let calculatePart2 (lines: array<string>) : int64 =
+    let _, lastPoints = connectAndGroupPoints lines Int64.MaxValue
+    let p1, p2 = lastPoints
+    int64 p1.X * int64 p2.X
