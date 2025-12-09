@@ -11,7 +11,7 @@ This year only contains 12 days.
 - [x] Day 6 - F# - Trash Compactor
 - [x] Day 7 - F# - Laboratories
 - [x] Day 8 - F# - Playground
-- [ ] Day 9
+- [x] Day 9 - F# - Movie Theater
 - [ ] Day 10
 - [ ] Day 11
 - [ ] Day 12
