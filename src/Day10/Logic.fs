@@ -3,7 +3,7 @@
 open System.Collections.Generic
 open Day10.Machine
 
-let getMinButtonPresses (machine: Machine) : int option =
+let getMinButtonPressesForLights (machine: Machine) : int option =
     let numLights = machine.Target.Length
     let numButtons = machine.Buttons.Length
 
@@ -44,4 +44,4 @@ let getMinButtonPresses (machine: Machine) : int option =
     found
 
 let solvePart1 (input: string[]) : int =
-    input |> Array.map parseMachine |> Array.choose getMinButtonPresses |> Array.sum
+    input |> Array.map parseMachine |> Array.choose getMinButtonPressesForLights |> Array.sum
