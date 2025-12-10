@@ -22,3 +22,22 @@ let part1Test () =
 
     let result = solvePart1 input
     result.ShouldBe(7)
+
+[<TestCase("[.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}", 10)>]
+[<TestCase("[...#.] (0,2,3,4) (2,3) (0,4) (0,1,2) (1,2,3,4) {7,5,12,7,2}", 12)>]
+[<TestCase("[.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}", 11)>]
+let getMinButtonPressesForJoltageTests (input: string) (expected: int) =
+    let machine = parseMachine input
+    let result = getMinButtonPressesForJoltage machine
+    result.ShouldBe(Some expected)
+
+[<Test>]
+let part2Test () =
+    let input =
+        [| "[.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}"
+           "[...#.] (0,2,3,4) (2,3) (0,4) (0,1,2) (1,2,3,4) {7,5,12,7,2}"
+           "[.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}" |]
+
+    let result = solvePart2 input
+    result.ShouldBe(33)
+
