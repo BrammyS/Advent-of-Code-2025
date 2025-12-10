@@ -14,3 +14,11 @@ let part1 = solvePart1 lines
 sw1.Stop()
 printfn $"Part 1 Sum: {part1}"
 printfn $"Part 1 Elapsed in: %A{sw1.Elapsed.TotalMilliseconds} ms"
+
+// This took me 5,5 hours to resolve when using all 32 threads on the 9950X3D :)
+printfn $"Part 2 starting... Please be patient, this WILL take a long time."
+let sw2 = Stopwatch.StartNew()
+let part2 = solvePart2 lines
+sw2.Stop()
+printfn $"Part 2 Sum: {part2}"
+printfn $"Part 2 Elapsed in: %A{sw2.Elapsed.TotalMilliseconds} ms"
