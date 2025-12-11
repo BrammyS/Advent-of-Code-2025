@@ -17,25 +17,56 @@ let parseDevice (line: string) : string * string list =
 let buildDeviceMap (lines: string[]) : Map<string, string list> =
     lines |> Array.map parseDevice |> Map.ofArray
 
-let countPaths (deviceMap: Map<string, string list>) (start: string) (target: string) : int =
-    let mutable count = 0
-    let stack = Stack<string>()
-    stack.Push(start)
+let countPaths (deviceMap: Map<string, string list>) (start: string) (target: string) (cache: Dictionary<string * string, int64>) : int64 =
+    let stack = Stack<string * bool>()
+    stack.Push((start, false))
 
     while stack.Count > 0 do
-        let current = stack.Pop()
+        let current, visited = stack.Pop()
+        let key = (current, target)
 
-        if current = target then
-            count <- count + 1
+        if cache.ContainsKey(key) then
+            ()
+        elif current = target then
+            cache[key] <- 1L
+        elif visited then
+            let children = deviceMap.TryFind(current) |> Option.defaultValue []
+
+            let mutable total = 0L
+
+            for child in children do
+                total <- total + cache[(child, target)]
+
+            cache[key] <- total
         else
-            match Map.tryFind current deviceMap with
-            | None -> ()
-            | Some children ->
-                for child in children do
-                    stack.Push(child)
+            stack.Push((current, true))
+            let children = deviceMap.TryFind(current) |> Option.defaultValue []
 
-    count
+            for child in children do
+                if not (cache.ContainsKey((child, target))) then
+                    stack.Push((child, false))
 
-let solvePart1 (lines: string[]) : int =
+    cache[(start, target)]
+
+let solvePart1 (lines: string[]) : int64 =
     let deviceMap = buildDeviceMap lines
-    countPaths deviceMap "you" "out"
+    let cache = Dictionary<string * string, int64>()
+    countPaths deviceMap "you" "out" cache
+
+let solvePart2 (lines: string[]) : int64 =
+    let deviceMap = buildDeviceMap lines
+    let cache = Dictionary<string * string, int64>()
+
+    // paths from svr, dac, fft, out
+    let svrToDac = countPaths deviceMap "svr" "dac" cache
+    let dacToFft = countPaths deviceMap "dac" "fft" cache
+    let fftToOut = countPaths deviceMap "fft" "out" cache
+    let pathsToOut1 = svrToDac * dacToFft * fftToOut
+
+    // paths from svr, fft, dac, out
+    let svrToFft = countPaths deviceMap "svr" "fft" cache
+    let fftToDac = countPaths deviceMap "fft" "dac" cache
+    let dacTpOut = countPaths deviceMap "dac" "out" cache
+    let pathsToOut2 = svrToFft * fftToDac * dacTpOut
+
+    pathsToOut1 + pathsToOut2
